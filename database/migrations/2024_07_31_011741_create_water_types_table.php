@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('water_type_id')->constrained();
-            $table->foreignId('size_id')->constrained();
-            $table->int('price');
+        Schema::create('water_types', function (Blueprint $table) {
+            $table->mediumIncrements('id');
+            $table->string('name', 32);
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('water_types');
     }
 };
