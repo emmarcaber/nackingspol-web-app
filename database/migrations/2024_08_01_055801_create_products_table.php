@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('water_type_id')->constrained();
-            $table->foreignId('size_id')->constrained();
-            $table->int('price');
+            $table->unsignedMediumInteger('water_type_id');
+            $table->unsignedMediumInteger('size_id');
+            $table->integer('price');
             $table->timestamps();
+
+            $table->foreign('water_type_id')->references('id')->on('water_types');
+            $table->foreign('size_id')->references('id')->on('sizes');
         });
     }
 
