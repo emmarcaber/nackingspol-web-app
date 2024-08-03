@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedMediumInteger('size_id');
             $table->integer('price');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('water_type_id')->references('id')->on('water_types');
             $table->foreign('size_id')->references('id')->on('sizes');
