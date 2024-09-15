@@ -2,10 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 
-class MakeTypesCommand extends Command
+class MakeTypesCommand extends BaseCommand
 {
     /**
      * The name and signature of the console command.
@@ -21,12 +20,13 @@ class MakeTypesCommand extends Command
      */
     protected $description = 'Create a new types class file';
 
-    protected Filesystem $files;
-
+    /**
+     * MakeTypesCommand constructor.
+     */
     public function __construct(Filesystem $files)
     {
-        parent::__construct();
-        $this->files = $files;
+        // Pass 'Type' as the file type
+        parent::__construct($files, 'Type');
     }
 
     /**
@@ -36,49 +36,63 @@ class MakeTypesCommand extends Command
     {
         // Get the filename argument
         $filename = $this->argument('filename');
-        $path = app_path("Types/{$filename}.php");
 
-        // Check if the file already exists
-        if ($this->files->exists($path)) {
-            $this->error("ERROR  Type already exists.");
-            return;
-        }
+        // Generate the types file
+        return $this->generateFile($filename);
+    }
 
-        // Define the file content
-        // Do not indent since it will be written to the file as is
-        $content = <<<PHP
+    /**
+     * Define the file path for the types class.
+     *
+     * @param string $filename The filename.
+     * @return string The file path for the types class.
+     */
+    protected function getFilePath(string $filename): string
+    {
+        return app_path("Types/{$filename}.php");
+    }
+
+    /**
+     * Define the file content for the types class.
+     *
+     * @param string $filename The filename.
+     * @return string The content of the types class file.
+     */
+    protected function getFileContent(string $filename): string
+    {
+        return <<<PHP
 <?php
 
 namespace App\Types;
 
 use App\Traits\Makeable;
 
-class {$filename}Type extends BaseType
+class {$filename} extends BaseType
 {
     use Makeable;
 
-    public static function getDefaultPermissions(string \$classname) : array
+    public static function getDefaultPermissions(string \$classname): array
     {
         return [
             //
         ];
     }
 
-    public function setTypes() : array
+    public function setTypes(): array
     {
         return [
             //
         ];
     }
 
-    public function setSelectionTypes() : array
+    public function setSelectionTypes(): array
     {
         return [
             //
         ];
     }
 
-    public function setDefaultColors() : array
+    public function setDefaultColors(): array
     {
         return [
             //
@@ -86,10 +100,5 @@ class {$filename}Type extends BaseType
     }
 }
 PHP;
-
-        // Create the file and write the content
-        $this->files->put($path, $content);
-
-        $this->info("INFO  Type [{$path}] created successfully.");
     }
 }

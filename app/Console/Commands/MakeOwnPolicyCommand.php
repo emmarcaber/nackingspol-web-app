@@ -2,10 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 
-class MakeOwnPolicyCommand extends Command
+class MakeOwnPolicyCommand extends BaseCommand
 {
     /**
      * The name and signature of the console command.
@@ -21,38 +20,52 @@ class MakeOwnPolicyCommand extends Command
      */
     protected $description = 'Create a new policy class file';
 
-    protected Filesystem $files;
-
+    /**
+     * MakeOwnPolicyCommand constructor.
+     */
     public function __construct(Filesystem $files)
     {
-        parent::__construct();
-        $this->files = $files;
+        // Pass 'Policy' as the file type
+        parent::__construct($files, 'Policy');
     }
 
     /**
      * Execute the console command.
      */
-    public function handle(Filesystem $files)
+    public function handle()
     {
         // Get the model argument
         $model = $this->argument('model');
-        $path = app_path("Policies/{$model}Policy.php");
 
-        // Check if the file already exists
-        if ($this->files->exists($path)) {
-            $this->error("ERROR  Policy already exists.");
-            return;
-        }
+        // Generate the policy file
+        return $this->generateFile($model);
+    }
 
-        // Define the file content
-        // Do not indent since it will be written to the file as is
-        $content = <<<PHP
+    /**
+     * Define the file path for the policy class.
+     *
+     * @param string $model The model name.
+     * @return string The file path for the policy.
+     */
+    protected function getFilePath(string $model): string
+    {
+        return app_path("Policies/{$model}Policy.php");
+    }
+
+    /**
+     * Define the file content for the policy class.
+     *
+     * @param string $model The model name.
+     * @return string The content of the policy class file.
+     */
+    protected function getFileContent(string $model): string
+    {
+        return <<<PHP
 <?php
 
 namespace App\Policies;
 
 use App\Models\\$model;
-use App\Models\User;
 
 class {$model}Policy extends BasePolicy
 {
@@ -62,13 +75,5 @@ class {$model}Policy extends BasePolicy
     }
 }
 PHP;
-
-        // Write the file
-        $this->files->put($path, $content);
-
-        // Create the file and write the content
-        $this->files->put($path, $content);
-
-        $this->info("INFO  Policy [{$path}] created successfully.");
     }
 }
