@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 /**
  * Class ExtractClassNameHelper
  *
- * This class is used to extract the class name from a fully qualified class name.
+ * This class is used to extract the class name from a class.
  *
  * @package App\Helpers
  */
