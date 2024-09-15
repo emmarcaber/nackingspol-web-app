@@ -55,9 +55,9 @@ abstract class BaseType
     public function __construct()
     {
         // Initialize class properties with the values returned by respective methods
-        $this->types = $this->types();
-        $this->selectionTypes = $this->selectionTypes();
-        $this->defaultColors = $this->defaultColors();
+        $this->types = $this->setTypes();
+        $this->selectionTypes = $this->setSelectionTypes();
+        $this->defaultColors = $this->setDefaultColors();
 
         // Validate the structure of selection types and default colors (must be string key-value pairs)
         ValidateVariableHelper::ensureStringKeyValuePairs($this->selectionTypes);
