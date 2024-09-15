@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use Illuminate\Support\Str;
+
 /**
  * Class ExtractClassNameHelper
  *
@@ -14,12 +16,18 @@ class ExtractClassNameHelper
     /**
      * Extracts the class name from a fully qualified class name.
      *
-     * @param string $fullyQualifiedClassName
+     * @param string $class
      * @return string
      */
-    public static function extract(string $fullyQualifiedClassName): string
+    public static function extract(string $class): string
     {
-        $parts = explode('\\', $fullyQualifiedClassName);
-        return strtolower(end($parts));
+        // Remove the namespace and "::class" if present
+        $className = class_basename($class);
+
+        // Convert CamelCase to words separated by spaces using Str::of and other methods
+        return Str::of($className)
+            ->snake()
+            ->replace('_', ' ')
+            ->lower();
     }
 }
