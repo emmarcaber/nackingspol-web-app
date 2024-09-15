@@ -14,9 +14,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(
+        $this->call([
+            RoleSeeder::class,
+            PermissionSeeder::class,
             UserSeeder::class,
-            WaterType::class,
-        );
+            WaterTypeSeeder::class,
+        ]);
     }
 }
