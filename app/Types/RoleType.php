@@ -23,10 +23,7 @@ class RoleType extends BaseType
                 "restore $classname",
                 "force delete $classname"
             ],
-            self::CASHIER => [
-                "view any $classname",
-                "view $classname"
-            ]
+            self::CASHIER => []
         ];
     }
 

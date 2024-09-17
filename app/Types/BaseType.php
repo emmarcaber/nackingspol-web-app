@@ -90,7 +90,7 @@ abstract class BaseType
      */
     public function selectionTypes(): array
     {
-        return $this->selectionTypes();
+        return $this->selectionTypes;
     }
 
     /**
