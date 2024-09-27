@@ -2,26 +2,24 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\SizeResource\Pages;
+use App\Filament\Resources\SizeResource\RelationManagers;
+use App\Models\Size;
 use Filament\Forms;
-use App\Models\User;
-use Filament\Tables;
-use App\Types\RoleType;
 use Filament\Forms\Form;
-use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\UserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\UserResource\RelationManagers;
-use App\Filament\Resources\UserResource\RelationManagers\RolesRelationManager;
 
-class UserResource extends Resource
+class SizeResource extends Resource
 {
-    protected static ?string $model = User::class;
+    protected static ?string $model = Size::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-users';
+    protected static ?string $navigationIcon = 'heroicon-o-arrows-pointing-out';
 
-    protected static ?string $navigationGroup = 'Support';
+    protected static ?string $navigationGroup = 'Products Management';
 
     public static function form(Form $form): Form
     {
@@ -29,15 +27,7 @@ class UserResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->required()
-                    ->maxLength(255),
+                    ->maxLength(32),
             ]);
     }
 
@@ -47,12 +37,6 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('roles.name')
-                    ->label('Role')
-                    ->badge()
-                    ->color(fn(string $state) => RoleType::make()->getDefaultColor($state)),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -85,17 +69,17 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RolesRelationManager::class,
+            //
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
-            'create' => Pages\CreateUser::route('/create'),
-            'view' => Pages\ViewUser::route('/{record}'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            'index' => Pages\ListSizes::route('/'),
+            'create' => Pages\CreateSize::route('/create'),
+            'view' => Pages\ViewSize::route('/{record}'),
+            'edit' => Pages\EditSize::route('/{record}/edit'),
         ];
     }
 
