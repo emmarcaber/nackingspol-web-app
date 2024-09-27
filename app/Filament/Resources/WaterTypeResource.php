@@ -19,7 +19,7 @@ class WaterTypeResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-list-bullet';
 
-    protected static bool $shouldRegisterNavigation = false;
+    protected static ?string $navigationGroup = 'Products Management';
 
     public static function form(Form $form): Form
     {
