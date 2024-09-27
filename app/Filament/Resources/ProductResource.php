@@ -48,7 +48,7 @@ class ProductResource extends Resource
                 Forms\Components\TextInput::make('price')
                     ->required()
                     ->numeric()
-                    ->prefix('$'),
+                    ->prefix('₱'),
             ]);
     }
 
@@ -58,12 +58,13 @@ class ProductResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('waterType.name')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('Water Type'),
                 Tables\Columns\TextColumn::make('size.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('price')
-                    ->money()
+                    ->money('PHP')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

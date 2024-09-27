@@ -13,6 +13,12 @@ class Product extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $fillable = [
+        'water_type_id',
+        'size_id',
+        'price',
+    ];
+
     public function size(): BelongsTo
     {
         return $this->belongsTo(Size::class);
