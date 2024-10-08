@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Forms\Components\ProductCardSelect;
+use App\Forms\Components\TransactionTypeSelect;
 use App\Models\Order;
 use App\Types\RoleType;
 use App\Types\TransactionType;
@@ -48,9 +49,8 @@ class OrderResource extends Resource
                 ProductCardSelect::make('product_id')
                     ->label('Product'),
 
-                Forms\Components\Select::make('transaction_type')
-                    ->options(TransactionType::make()->types())
-                    ->required(),
+                TransactionTypeSelect::make('transaction_type')
+                    ->label('Transaction Type'),
 
                 Forms\Components\TextInput::make('status')
                     ->required()
