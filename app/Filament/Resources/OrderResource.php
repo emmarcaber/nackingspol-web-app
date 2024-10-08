@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\RelationManagers;
+use App\Forms\Components\ProductCardSelect;
 use App\Models\Order;
 use App\Types\RoleType;
 use App\Types\TransactionType;
@@ -28,22 +29,34 @@ class OrderResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('cashier_id')
-                    ->relationship('cashier', 'name')
-                    ->required(),
                 Forms\Components\Select::make('customer_id')
                     ->relationship('customer', 'name')
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->label('Customer Name'),
+
+                        Forms\Components\Textarea::make('reference_address')
+                            ->required()
+                            ->label('Reference Address'),
+                    ])
+                    ->createOptionModalHeading('Create Customer')
+                    ->searchable()
+                    ->preload()
                     ->required(),
-                Forms\Components\Select::make('product_id')
-                    ->relationship('product', 'id')
-                    ->required(),
+
+                ProductCardSelect::make('product_id')
+                    ->label('Product'),
+
                 Forms\Components\Select::make('transaction_type')
                     ->options(TransactionType::make()->types())
                     ->required(),
+
                 Forms\Components\TextInput::make('status')
                     ->required()
                     ->maxLength(255),
-            ]);
+            ])
+            ->columns(1);
     }
 
     public static function table(Table $table): Table
