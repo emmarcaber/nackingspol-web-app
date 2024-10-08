@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('reference_address');
-            $table->softDeletes();
+            $table->string('name')->default('');
+            $table->text('reference_address')->default('');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

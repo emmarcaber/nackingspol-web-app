@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('sizes', function (Blueprint $table) {
             $table->mediumIncrements('id');
-            $table->string('name', 32);
+            $table->string('name', 32)->default('');
             $table->timestamps();
             $table->softDeletes();
         });

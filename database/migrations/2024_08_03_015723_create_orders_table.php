@@ -20,10 +20,10 @@ return new class extends Migration
             );
             $table->foreignId('customer_id')->constrained();
             $table->foreignId('product_id')->constrained();
-            $table->string('transaction_type');
-            $table->string('status');
-            $table->softDeletes();
+            $table->string('transaction_type')->default('');
+            $table->string('status')->default('');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
